@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "awesome-indexer"
+authors = [
+    {name = "Andrew Jackson", email = "andrew.jackson@dpconline.org"},
+]
+description = "Tools for building an index of Awesome Lists and more."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "AGPL-3"}
+dependencies = [
+    "mistletoe",
+    "pydantic",
+    "pyzotero",
+]
+dynamic = ["version"]
