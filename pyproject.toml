@@ -12,8 +12,12 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "AGPL-3"}
 dependencies = [
+    "diskcache",
     "mistletoe",
     "pydantic",
     "pyzotero",
 ]
 dynamic = ["version"]
+
+[project.scripts]
+awindex = "awindex:cli"
