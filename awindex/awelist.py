@@ -44,6 +44,7 @@ class JsonlRenderer(BaseRenderer):
         self.keep_text = True
         self.item['url'] = None
         self.item['meta']['title']  = self.render_inner(token)
+        self.item['content'] = self.item['meta']['title']
         self.keep_text = False
         self.in_item = False
         # FIXME drop items with empty or # URLs
@@ -68,7 +69,7 @@ class JsonlRenderer(BaseRenderer):
         return self.re_comment.sub("", token.content)
 
 
-def parse_awesome_list(fin, source=None):
+def parse_awesome_list(fin, source=None, language="en"):
     with JsonlRenderer() as renderer:
         jsonl: str = renderer.render(mistletoe.Document(fin))
         for json_item in jsonl.splitlines():
@@ -77,12 +78,13 @@ def parse_awesome_list(fin, source=None):
                 # Set up as indexer record:
                 pf = PageFindRecord(
                     url=item['url'],
-                    content="",
+                    content=item['content'],
+                    language=language,
                     meta=item['meta'],
                     filters=item['filters']
                 )
                 # Add the source
                 if source:
-                    pf.filters['source'] = source
+                    pf.filters['source'] = [ source ]
                 # And return it
                 yield pf
