@@ -13,7 +13,7 @@ def prefix(pre: str, s: str) -> str:
     return pre + s.replace("\n", f"\n{pre}")
 
 
-async def main():
+async def async_main():
     config = IndexConfig(
         root_selector="main", logfile="index.log", output_path="./output", verbose=True
     )
@@ -35,5 +35,9 @@ async def main():
             print(prefix("files", f"{len(file['content']):10}B {file['path']}"))
 
 
+def main():
+    asyncio.run(async_main())
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

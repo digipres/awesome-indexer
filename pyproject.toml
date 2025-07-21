@@ -10,7 +10,7 @@ authors = [
 description = "Tools for building an index of Awesome Lists and more."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "AGPL-3"}
+license = "AGPL-3.0-or-later"
 dependencies = [
     "diskcache",
     "mistletoe",
@@ -20,5 +20,8 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+[tool.setuptools.packages.find]
+include = ["awindex"]
+
 [project.scripts]
-awindex = "awindex:cli"
+awindex = "awindex:cli.main"
