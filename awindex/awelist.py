@@ -112,7 +112,7 @@ def parse_awesome_list(url, source=None, language="en"):
     text = get_awesome_list(url)
     yield from parse_input(text, source, language)
 
-
+# For testing:
 if __name__ == "__main__":
     with open("test/awesome-web-archiving.md") as f:
         for pf in parse_input(f):

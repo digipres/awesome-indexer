@@ -1,11 +1,21 @@
 title: "Awesome Indexer Example"
 sources:
+- name: "iPRES Zotero Collection"
+  type: zotero
+  library_type: group
+  library_id: "5564150"
+- name: "Ethan Gates's Emulation Library"
+  type: zotero
+  library_type: user
+  library_id: 8195999
+  collection: "ERZIYJ3T"
+- name: "Software Preservation library"
+  type: zotero
+  library_type: user
+  library_id: 5791319
 - name: "Awesome Web Archiving"
   type: awesome-list
   url: "https://raw.githubusercontent.com/iipc/awesome-web-archiving/refs/heads/main/README.md"
 - name: "Awesome Digital Preservation"
   type: awesome-list
   url: "https://raw.githubusercontent.com/digipres/awesome-digital-preservation/refs/heads/main/README.md"
-- name: "iPRES Zotero Collection"
-  type: zotero-group
-  id: "5564150"
