@@ -1,5 +1,9 @@
 title: "Awesome Indexer Example"
 sources:
+- name: "IIPC Web Archiving Collection"
+  type: zotero
+  library_type: group
+  library_id: 2271741
 - name: "iPRES Zotero Collection"
   type: zotero
   library_type: group
@@ -8,7 +12,7 @@ sources:
   type: zotero
   library_type: user
   library_id: 8195999
-  collection: "ERZIYJ3T"
+  collection_id: "ERZIYJ3T"
 - name: "Software Preservation library"
   type: zotero
   library_type: user

@@ -5,6 +5,7 @@ import asyncio
 import logging
 from pagefind.index import PagefindIndex, IndexConfig
 from .awelist import parse_awesome_list
+from .zotero import parse_zotero
 from .models import Settings
 from pydantic import ValidationError
 
@@ -27,6 +28,9 @@ async def async_main(config: Settings):
             log.info(f"Indexing {source.name}...")
             if source.type == "awesome-list":
                 for pf in parse_awesome_list(source.url, source=source.name):
+                    await index.add_custom_record(**(dict(pf)))
+            elif source.type == "zotero":
+                for pf in parse_zotero(source.library_id, source.library_type, collection_id=source.collection_id, source=source.name):
                     await index.add_custom_record(**(dict(pf)))
             else:
                 log.warning(f"No implementation for source type {source.type}! Skipping {source.name}.")

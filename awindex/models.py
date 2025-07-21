@@ -23,6 +23,7 @@ class Source(BaseModel):
     url: Optional[str] = None
     library_id: Optional[Union[str, int]] = None
     library_type: Optional[str] = None
+    collection_id: Optional[str] = None
 
 class Settings(BaseModel):
     title: str

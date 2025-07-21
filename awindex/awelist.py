@@ -37,7 +37,8 @@ class JsonlRenderer(BaseRenderer):
         rendered = self.render_inner(token)
         self.headings.insert( token.level - 1, rendered.strip() )
         self.headings = self.headings[0:token.level]
-        self.item['filters']['section'] = [ " > ".join(self.headings[1:]) ]
+        self.item['filters']['sections'] = [ " > ".join(self.headings[1:]) ]
+        self.item['meta']['section'] = self.item['filters']['sections'][0]
         self.keep_text = False
         return ""
 
@@ -105,6 +106,7 @@ def parse_input(input, source=None, language="en"):
                 # Add the source
                 if source:
                     pf.filters['source'] = [ source ]
+                    pf.meta['source'] = source 
                 # And return it
                 yield pf
 
