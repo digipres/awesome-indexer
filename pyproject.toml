@@ -16,7 +16,10 @@ dependencies = [
     "mistletoe",
     "pagefind[bin]",
     "pydantic",
+    "pydantic-settings",
     "pyzotero",
+    "pyyaml",
+    "requests",
 ]
 dynamic = ["version"]
 

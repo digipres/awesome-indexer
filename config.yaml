@@ -1,0 +1,11 @@
+title: "Awesome Indexer Example"
+sources:
+- name: "Awesome Web Archiving"
+  type: awesome-list
+  url: "https://raw.githubusercontent.com/iipc/awesome-web-archiving/refs/heads/main/README.md"
+- name: "Awesome Digital Preservation"
+  type: awesome-list
+  url: "https://raw.githubusercontent.com/digipres/awesome-digital-preservation/refs/heads/main/README.md"
+- name: "iPRES Zotero Collection"
+  type: zotero-group
+  id: "5564150"

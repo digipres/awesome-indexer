@@ -1,4 +1,4 @@
-from typing import List, Optional, Set, Dict
+from typing import List, Optional, Set, Dict, Tuple, Type
 from pydantic import BaseModel
 from datetime import datetime
 import json
@@ -13,4 +13,16 @@ class PageFindRecord(BaseModel):
     meta: Optional[Dict[str, str]] = None
     filters: Optional[Dict[str, List[str]]] = None
     sort: Optional[Dict[str, str]] = None
+
+
+class Source(BaseModel):
+    name: str
+    type: str
+    url: Optional[str] = None
+    id: Optional[str] = None
+
+class Settings(BaseModel):
+    title: str
+    sources: List[Source]
+
 

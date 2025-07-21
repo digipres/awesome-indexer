@@ -1,8 +1,13 @@
 import re
+import requests
 import json
+import logging
 import mistletoe
 from mistletoe.markdown_renderer import MarkdownRenderer, BaseRenderer, block_token, span_token
 from .models import PageFindRecord
+from .zotero import cache, CACHE_FOR_SECONDS
+
+log = logging.getLogger(__name__)
 
 class JsonlRenderer(BaseRenderer):
     def __init__(
@@ -39,7 +44,7 @@ class JsonlRenderer(BaseRenderer):
     def render_list_item(self, token: block_token.ListItem) -> str:
         # This just skips sub-lists, but they are bad form anyway, I think.
         if self.in_item:
-            return ""
+            return self.render_inner(token)
         self.in_item = True
         self.keep_text = True
         self.item['url'] = None
@@ -47,7 +52,6 @@ class JsonlRenderer(BaseRenderer):
         self.item['content'] = self.item['meta']['title']
         self.keep_text = False
         self.in_item = False
-        # FIXME drop items with empty or # URLs
         return json.dumps(self.item)+"\n"
 
     def render_link(self, token: span_token.Link) -> str:
@@ -62,19 +66,34 @@ class JsonlRenderer(BaseRenderer):
     
     def render_raw_text(self, token) -> str:
         """
-        Strip any HTML comments, if keeping text. e.g. <!-- omit in toc -->
+        If keeping text, strip any HTML comments, . e.g. <!-- omit in toc -->
         """
         if not self.keep_text:
             return ""
         return self.re_comment.sub("", token.content)
 
+    # Without this, comment-only line break the parser.
+    def render_line_break(self, token: span_token.LineBreak) -> str:
+        if token.children:
+            return self.render_inner(token)
+        else:
+            return ""
 
-def parse_awesome_list(fin, source=None, language="en"):
+@cache.memoize(expire=CACHE_FOR_SECONDS)
+def get_awesome_list(url):
+    log.warning(f"Fetching {url}")
+    r = requests.get(url)
+    if r.status_code != 200:
+        raise Exception("FAILED")
+    return r.text
+
+def parse_input(input, source=None, language="en"):
     with JsonlRenderer() as renderer:
-        jsonl: str = renderer.render(mistletoe.Document(fin))
+        jsonl: str = renderer.render(mistletoe.Document(input))
         for json_item in jsonl.splitlines():
             item = json.loads(json_item)
-            if item['url']:
+            log.debug(f"Processing item {item}")
+            if item['url'] and not item['url'].startswith('#'): 
                 # Set up as indexer record:
                 pf = PageFindRecord(
                     url=item['url'],
@@ -88,3 +107,15 @@ def parse_awesome_list(fin, source=None, language="en"):
                     pf.filters['source'] = [ source ]
                 # And return it
                 yield pf
+
+def parse_awesome_list(url, source=None, language="en"):
+    text = get_awesome_list(url)
+    yield from parse_input(text, source, language)
+
+
+if __name__ == "__main__":
+    with open("test/awesome-web-archiving.md") as f:
+        for pf in parse_input(f):
+            print(pf)
+
+

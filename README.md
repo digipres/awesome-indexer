@@ -14,7 +14,13 @@ python3.11 -m venv .venv
 source .venv/bin/activate
 pip install .
 
-awindex
+awindex test-config.yml
 ```
 
 Then open `test.html` in a browser.
+
+Or to run from source rather than the installed version (during development):
+
+```bash
+python -m awindex.cli
+```
