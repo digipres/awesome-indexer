@@ -66,8 +66,8 @@ def parse_zotero(library_id, library_type, api_key=None, collection_id:str = Non
         )
 
         # Add the collection:
+        sections = []
         if 'collections' in d:
-            sections = []
             for c_k in d['collections']:
                 # Skip entries that are outside the requestions collection scope:
                 if not c_k in cols:
@@ -77,10 +77,10 @@ def parse_zotero(library_id, library_type, api_key=None, collection_id:str = Non
             pf.filters['sections'] = sections
             if len(sections) == 1:
                 pf.meta['section'] = sections[0]
-        else:
-            # Skip items in no collections if a specific collection was requested:
-            if collection_id:
-                continue
+            
+        # Skip items in no collections if a specific collection was requested:
+        if collection_id and len(sections) == 0:
+            continue
 
         # Add the source
         if source:
