@@ -1,11 +1,21 @@
 Awesome Indexer
 ===============
 
-Generate little search engines and indexes of useful resources like [Awesome Lists](https://github.com/sindresorhus/awesome/blob/main/awesome.md).
+Generate little search engines and indexes of useful resources like:
+
+- [Awesome Lists](https://github.com/sindresorhus/awesome/blob/main/awesome.md)
+- [Zotero Collections]()
+- [Zenodo Groups]()
+
+## Usage
+
+_TBA_
+
+## Development setup
 
 - Requires Python 3.11+
 
-## Linux/WSL2
+### Linux/WSL2
 
 ```bash
 sudo apt install python3.11

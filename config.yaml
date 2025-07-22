@@ -22,4 +22,5 @@ sources:
   url: "https://raw.githubusercontent.com/iipc/awesome-web-archiving/refs/heads/main/README.md"
 - name: "Awesome Digital Preservation"
   type: awesome-list
-  url: "https://raw.githubusercontent.com/digipres/awesome-digital-preservation/refs/heads/main/README.md"
+  view_url: "https://github.com/digipres/awesome-digital-preservation/blob/main/README.md?plain=1"
+  url: "https://github.com/iipc/awesome-web-archiving/raw/refs/heads/main/README.md"
