@@ -25,19 +25,23 @@ class Settings(BaseModel):
 class IndexRecord(BaseModel):
     title: str 
     url: str
-    source: str
-    source_url: str
+    creators: Optional[List[str]] = None
     abstract: Optional[str] = None
     full_text: Optional[str] = None
+    # Ideally from https://vocabularies.coar-repositories.org/documentation/resource_types/
     type: Optional[str] = None
     categories: Optional[List[str]] = None
     keywords: Optional[List[str]] = None
     license: Optional[str] = None
     date: Optional[datetime] = None
     weight: Optional[int] = None
+    # Encode lists as JSON arrays:
     metadata: Optional[Dict[str, str]] = None
+    # Ideally of the form: 'https://schema.org/<Type>' -> <URL>
     links: Optional[Dict[str, str]] = None
     language: str = "en"
+    source: str
+    source_url: str
 
 
 # Data model for PageFind records:
