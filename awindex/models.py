@@ -37,7 +37,7 @@ class IndexRecord(BaseModel):
     weight: Optional[int] = None
     # Encode lists as JSON arrays:
     metadata: Optional[Dict[str, str]] = None
-    # Ideally of the form: 'https://schema.org/<Type>' -> <URL>
+    # Some standard link types are declared in TBA...
     links: Optional[Dict[str, str]] = None
     language: str = "en"
     source: str
