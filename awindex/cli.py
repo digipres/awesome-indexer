@@ -28,6 +28,17 @@ def generate_pagefind_records(config):
         else:
             log.warning(f"No implementation for source type {source.type}! Skipping {source.name}.")
 
+def add_templated_files(config, output_path, files):
+    from jinja2 import Environment, PackageLoader, select_autoescape
+    env = Environment(
+        loader=PackageLoader("awindex"),
+        autoescape=select_autoescape()
+    )
+    for file in files:
+        template = env.get_template(file)
+        with open(output_path / file, "w") as fh:
+            fh.write(template.render(c=config))
+
 def prefix(pre: str, s: str) -> str:
     return pre + s.replace("\n", f"\n{pre}")
 
@@ -36,18 +47,12 @@ async def async_main(config: Settings):
     output_path = Path(config.output)
     index_path = output_path / "pagefind"
     index_path.mkdir(parents=True, exist_ok=True)
+    
     # TODO Process sources here, so we have stats and outputs ready:
 
     # Put templated index file in place:
-    from jinja2 import Environment, PackageLoader, select_autoescape
-    env = Environment(
-        loader=PackageLoader("awindex"),
-        autoescape=select_autoescape()
-    )
-    template = env.get_template("index.html")
-    with open(output_path / "index.html", "w") as fh:
-        fh.write(template.render(c=config))
-    
+    add_templated_files(config, output_path, ["index.html", "styles.css"])
+
     # Set up index config and generate:
     log.info("Generating PageFind index...")
     index_config = IndexConfig(

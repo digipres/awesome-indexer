@@ -4,8 +4,8 @@ Awesome Indexer
 Generate little search engines and indexes of useful resources like:
 
 - [Awesome Lists](https://github.com/sindresorhus/awesome/blob/main/awesome.md)
-- [Zotero Collections]()
-- [Zenodo Groups]()
+- [Zotero](https://www.zotero.org/) libraries and collections
+- [Zenodo Communities](https://zenodo.org/communities)
 
 ## Usage
 
