@@ -41,15 +41,21 @@ def parse_zotero(library_id, library_type, api_key=None, collection_id:str = Non
         cols[c['key']] = c
 
     # Convert to common format:
+    count = 0
+    attachment_count = 0
+    skipped_count = 0
     for item in items:
         # Set up as indexer record:
         d = item['data']
         log.debug(f"Processing: {json.dumps(item)}")
+        # Skip attachments/notes/annotations for now:
+        if d['itemType'] in ['attachment', 'note', 'annotation']:
+            attachment_count += 1
+            continue
         # Skip items with no URL:
         if not 'url' in d:
-            continue
-        # Skip attachgments for now:
-        if d['itemType'] == 'attachment':
+            log.warning(f"No URL for: {json.dumps(item)}")
+            skipped_count += 1
             continue
         # Build a record:
         pf = PageFindRecord(
@@ -88,6 +94,10 @@ def parse_zotero(library_id, library_type, api_key=None, collection_id:str = Non
             pf.meta['source'] = source
         # And return it
         yield pf
+        count += 1
+    # Log stats
+    log.info(f"Found {count} records.") 
+    log.info(f"Ignored {attachment_count} attachments/notes/annotations and skipped {skipped_count} records with no URL.") 
 
 
 # Entrypoint
