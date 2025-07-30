@@ -1,0 +1,25 @@
+html, body {
+    font-family: sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+#search {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: #034ad8;
+    --pagefind-ui-text: #000;
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #ddd;
+    --pagefind-ui-tag: #ddd;
+    --pagefind-ui-border-width: 2px;
+    --pagefind-ui-border-radius: 4px;
+    --pagefind-ui-image-border-radius: 8px;
+    --pagefind-ui-image-box-ratio: 3 / 2;
+    --pagefind-ui-font: sans-serif;
+}
+
+.pagefind-ui__result-tag {
+    font-weight: bolder !important;
+}

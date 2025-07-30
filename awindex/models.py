@@ -1,23 +1,33 @@
-from typing import List, Optional, Set, Dict, Tuple, Type, Union
-from pydantic import BaseModel
+from typing import List, Optional, Set, Dict, Tuple, Type, Union, Literal, Annotated
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 # Data model for input configuration:
 class Source(BaseModel):
     name: str
-    type: str
-    # URL sources:
-    view_url: Optional[str] = None
-    url: Optional[str] = None
-    # Zotero-specific fields:
-    library_id: Optional[Union[str, int]] = None
-    library_type: Optional[str] = None
+    homepage: Optional[str] = None
+
+# Zotero-specific fields:
+class Zotero(Source):
+    type: Literal['zotero']
+    library_id: Union[str, int]
+    library_type: str
     collection_id: Optional[str] = None
+
+# Awesome List Source:
+class Awesome(Source):
+    type: Literal['awesome-list']
+    view_url: Optional[str] = None
+    url: str = None
+
+class Jsonl(Source):
+    type: Literal['jsonl']
+    file: str    
 
 class Settings(BaseModel):
     title: str
     output: Optional[str] = './output'
-    sources: List[Source]
+    sources: List[Annotated[Union[Zotero, Awesome, Jsonl], Field(discriminator='type')]]
 
 
 # Data model of normalised form of index record:
@@ -84,7 +94,7 @@ class PageFindRecord(BaseModel):
             pf.meta['source'] = ir.source
         # If there's a date, filter on the year:
         if ir.date:
-            pf.filters['year'] = [ ir.date.year ]
+            pf.filters['year'] = [ str(ir.date.year) ]
             pf.meta['date'] = ir.date.isoformat()
             pf.sort['date'] = ir.date.isoformat()
 

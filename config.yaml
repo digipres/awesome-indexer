@@ -1,26 +1,35 @@
 title: "Awesome Indexer Example"
 sources:
-- name: "IIPC Web Archiving Collection"
+- name: "iPRES Proceedings"
+  type: jsonl
+  file: ./test/ipres-awindex-test.jsonl
+- name: "IIPC Web Archiving Library"
   type: zotero
   library_type: group
   library_id: 2271741
-- name: "iPRES Zotero Collection"
-  type: zotero
-  library_type: group
-  library_id: "5564150"
 - name: "Ethan Gates's Emulation Library"
+  homepage: "https://www.digipres.org/publications/ipres/ipres-2024/papers/using-digital-documents-to-preserve-emulation-lessons-learned-fr/"
   type: zotero
   library_type: user
   library_id: 8195999
   collection_id: "ERZIYJ3T"
-- name: "Software Preservation library"
-  type: zotero
-  library_type: user
-  library_id: 5791319
 - name: "Awesome Web Archiving"
+  homepage: "https://github.com/iipc/awesome-web-archiving/"
   type: awesome-list
   url: "https://raw.githubusercontent.com/iipc/awesome-web-archiving/refs/heads/main/README.md"
 - name: "Awesome Digital Preservation"
+  homepage: "https://github.com/digipres/awesome-digital-preservation/"
   type: awesome-list
   view_url: "https://github.com/digipres/awesome-digital-preservation/blob/main/README.md?plain=1"
   url: "https://github.com/iipc/awesome-web-archiving/raw/refs/heads/main/README.md"
+#
+#- name: "Software Preservation library"
+#  homepage: "https://www.softwarepreservationnetwork.org/software-preservation-bibliography/"
+#  type: zotero
+#  library_type: user
+#  library_id: 5791319
+# 
+#- name: "iPRES Zotero Collection"
+#  type: zotero
+#  library_type: group
+#  library_id: "5564150"

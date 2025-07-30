@@ -8,7 +8,7 @@ from pathlib import Path
 from pagefind.index import PagefindIndex, IndexConfig
 from .awelist import parse_awesome_list
 from .zotero import parse_zotero
-from .models import Settings
+from .models import Settings, IndexRecord, PageFindRecord
 from pydantic import ValidationError
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
@@ -25,6 +25,14 @@ def generate_pagefind_records(config):
         elif source.type == "zotero":
             for pf in parse_zotero(source.library_id, source.library_type, collection_id=source.collection_id, source=source.name):
                 yield pf
+        elif source.type == "jsonl":
+            with open(source.file) as f:
+                for line in f:
+                    ir = IndexRecord.model_validate_json(line)
+                    # Override the source field:
+                    ir.source = source.name
+                    ir.source_url = source.homepage
+                    yield PageFindRecord.from_index_record(ir)
         else:
             log.warning(f"No implementation for source type {source.type}! Skipping {source.name}.")
 
@@ -47,7 +55,7 @@ async def async_main(config: Settings):
     output_path = Path(config.output)
     index_path = output_path / "pagefind"
     index_path.mkdir(parents=True, exist_ok=True)
-    
+
     # TODO Process sources here, so we have stats and outputs ready:
 
     # Put templated index file in place:
@@ -64,9 +72,9 @@ async def async_main(config: Settings):
         for pf in generate_pagefind_records(config):
             await index.add_custom_record(**(dict(pf)))
             count += 1
-        # Report:
-        files = await index.get_files()
-        log.info(f"Indexed {count} records, generated {len(files)} PageFind index files.")
+        # Report (don't call get_files as it returns the actual files and locks up the pipes):
+        log.info(f"Indexed {count} records, now writing PageFind index files...")
+    log.info("Indexing complete.")
 
 def main(config):
     asyncio.run(async_main(config))
