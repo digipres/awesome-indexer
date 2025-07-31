@@ -1,5 +1,6 @@
-title: "Awesome Demo"
+title: "Awesome Indexes Demo"
 homepage: https://github.com/digipres/awesome-indexes
+description: "A demo to show what the <a href='https://github.com/digipres/awesome-indexes#readme'>Awesome Indexer</a> can do."
 sources:
 - name: Zenodo Digital Preservation Community
   homepage: https://zenodo.org/communities/digital-preservation

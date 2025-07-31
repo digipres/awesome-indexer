@@ -11,42 +11,42 @@
 </head>
 <body>
 
-  <div class="container">
+    <div class="container mt-2">
 
+        <h1 class="display-4 text-center">{{ c.title }}</h1>
+        {% if c.description %}
+        <p class="lead text-center">
+            {{ c.description | safe }}
+        </p>
+        {% endif %}
+        <div class="py-1">
+            <div id="search"></div>
+        </div>
 
-    <h1 class="display-3 text-center">{{ c.title }}</h1>
-    {% if c.description %}
-    <p class="lead text-center">
-        {{ c.description }}
-    </p>
-    {% endif %}
-    <div id="search" class=""></div>
+        <nav class="navbar bg-body-tertiary mt-3">
+        <div class="container-fluid">
+            <span class="navbar-text">
+            {% if c.homepage %}<a href="{{ c.homepage }}">About this site</a>{% endif %}
+            </span>
+            <span class="navbar-text">
+            Powered by <a href="https://github.com/digipres/awesome-indexes#readme">Awesome Indexes</a>
+            </span>
+        </div>
+        </nav>
 
-    <nav class="navbar bg-body-tertiary mt-3">
-    <div class="container-fluid">
-        <span class="navbar-text">
-        {% if c.homepage %}<a href="{{ c.homepage }}">About this site</a>{% endif %}
-        </span>
-        <span class="navbar-text">
-        Powered by <a href="https://github.com/digipres/awesome-indexes#readme">Awesome Indexes</a>
-        </span>
     </div>
-    </nav>
-  </div>
-
-
 
     <!-- Scripts -->    
 
     <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            new PagefindUI({ 
-                element: "#search",
-                showSubResults: true,
-                showEmptyFilters: false,
-                openFilters: ['Source']
-            });
+    window.addEventListener('DOMContentLoaded', (event) => {
+        new PagefindUI({ 
+            element: "#search",
+            showSubResults: true,
+            showEmptyFilters: false,
+            openFilters: ['Source']
         });
+    });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>

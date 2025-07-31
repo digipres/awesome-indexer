@@ -30,10 +30,11 @@ class Jsonl(Source):
     type: Literal['jsonl']
     file: str
 
-
+# Config file spec:
 class Settings(BaseModel):
     title: str
     homepage: Optional[str] = None
+    description: Optional[str] = None
     output: Optional[str] = './output'
     sources: List[Annotated[Union[Awesome, Zenodo, Zotero, Jsonl], Field(discriminator='type')]]
 
