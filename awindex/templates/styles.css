@@ -1,11 +1,3 @@
-html, body {
-    font-family: sans-serif;
-}
-
-h1 {
-    text-align: center;
-}
-
 #search {
     --pagefind-ui-scale: 0.8;
     --pagefind-ui-primary: #034ad8;

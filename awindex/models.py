@@ -33,6 +33,7 @@ class Jsonl(Source):
 
 class Settings(BaseModel):
     title: str
+    homepage: Optional[str] = None
     output: Optional[str] = './output'
     sources: List[Annotated[Union[Awesome, Zenodo, Zotero, Jsonl], Field(discriminator='type')]]
 
