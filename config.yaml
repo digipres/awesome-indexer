@@ -1,6 +1,11 @@
 title: "Awesome Indexer Example"
 sources:
+- name: Zenodo Digital Preservation Community
+  homepage: https://zenodo.org/communities/digital-preservation
+  type: zenodo
+  community: "digital-preservation"
 - name: "IIPC Web Archiving Library"
+  homepage: https://netpreserve.org/
   type: zotero
   library_type: group
   library_id: 2271741
@@ -20,6 +25,7 @@ sources:
   view_url: "https://github.com/digipres/awesome-digital-preservation/blob/main/README.md?plain=1"
   url: "https://raw.githubusercontent.com/digipres/awesome-digital-preservation/refs/heads/main/README.md"
 - name: "iPRES Proceedings"
+  homepage: https://ipres-conference.org/
   type: jsonl
   file: ./test/ipres-awindex-test.jsonl
 #

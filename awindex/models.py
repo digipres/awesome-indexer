@@ -5,7 +5,13 @@ from datetime import datetime
 # Data model for input configuration:
 class Source(BaseModel):
     name: str
-    homepage: Optional[str] = None
+    homepage: str
+
+# Awesome List Source:
+class Awesome(Source):
+    type: Literal['awesome-list']
+    view_url: Optional[str] = None
+    url: str = None
 
 # Zotero-specific fields:
 class Zotero(Source):
@@ -14,20 +20,21 @@ class Zotero(Source):
     library_type: str
     collection_id: Optional[str] = None
 
-# Awesome List Source:
-class Awesome(Source):
-    type: Literal['awesome-list']
-    view_url: Optional[str] = None
-    url: str = None
+# Zenodo
+class Zenodo(Source):
+    type: Literal['zenodo']
+    community: str
 
+# JSONL local file source
 class Jsonl(Source):
     type: Literal['jsonl']
-    file: str    
+    file: str
+
 
 class Settings(BaseModel):
     title: str
     output: Optional[str] = './output'
-    sources: List[Annotated[Union[Zotero, Awesome, Jsonl], Field(discriminator='type')]]
+    sources: List[Annotated[Union[Awesome, Zenodo, Zotero, Jsonl], Field(discriminator='type')]]
 
 
 # Data model of normalised form of index record:
@@ -74,11 +81,25 @@ class PageFindRecord(BaseModel):
                 'title': ir.title,
             },
             filters={},
-            sort={}
+            sort={
+                'title': ir.title,
+            }
         )
         # Optional fields etc.:
         if ir.abstract:
             pf.content += f" {ir.abstract}"
+        if ir.full_text:
+            pf.content += f" {ir.full_text}"
+        if ir.creators and len(ir.creators) > 0:
+            summary = ", ".join(ir.creators)
+            pf.content += summary
+            pf.meta['creators'] = summary
+            pf.filters['creators'] = ir.creators
+        if ir.keywords and len(ir.keywords) > 0:
+            summary = ", ".join(ir.keywords)
+            pf.content += summary
+            pf.meta['keywords'] = summary
+            pf.filters['keywords'] = ir.keywords
         if ir.categories:
             pf.filters['categories'] = ir.categories
             pf.meta['categories'] = ", ".join(ir.categories)
@@ -97,14 +118,14 @@ class PageFindRecord(BaseModel):
             pf.filters['year'] = [ str(ir.date.year) ]
             pf.meta['date'] = ir.date.isoformat()
             pf.sort['date'] = ir.date.isoformat()
+        if ir.metadata:
+            for k,v in ir.metadata.items():
+                pf.meta[k] = v
 
         # Other items to consider including:
         #source_url: str
-        #full_text: Optional[str] = None
-        #keywords: Optional[List[str]] = None
         #license: Optional[str] = None
         #weight: Optional[int] = None
-        #metadata: Optional[Dict[str, str]] = None
         #links: Optional[Dict[str, str]] = None
 
         # Return the mapped object:

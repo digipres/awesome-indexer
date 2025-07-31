@@ -8,6 +8,7 @@ from pathlib import Path
 from pagefind.index import PagefindIndex, IndexConfig
 from .awelist import parse_awesome_list
 from .zotero import parse_zotero
+from .zenodo import parse_zenodo
 from .models import Settings, IndexRecord, PageFindRecord
 from pydantic import ValidationError
 
@@ -24,6 +25,9 @@ def generate_pagefind_records(config):
                 yield pf
         elif source.type == "zotero":
             for pf in parse_zotero(source.library_id, source.library_type, collection_id=source.collection_id, source=source.name):
+                yield pf
+        elif source.type == "zenodo":
+            for pf in parse_zenodo(source):
                 yield pf
         elif source.type == "jsonl":
             with open(source.file) as f:
