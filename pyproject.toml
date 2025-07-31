@@ -9,7 +9,7 @@ authors = [
 ]
 description = "Tools for building an index of Awesome Lists and more."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = "AGPL-3.0-or-later"
 dependencies = [
     "diskcache",
