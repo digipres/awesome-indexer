@@ -58,6 +58,10 @@ _TBA_
 
 ## Development setup
 
+As well as needing Python 3.11+, the development environment needs NodeJS installed (because Pagefind is written in JavaScript).
+
+The [search page template](./awindex/templates/index.html) uses the [Jinja2](https://jinja.palletsprojects.com/) templating library and the interface is built using [Bootstrap (v5)](https://getbootstrap.com/).
+
 ### Linux/WSL2
 
 ```bash
