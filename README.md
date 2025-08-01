@@ -8,7 +8,9 @@ Generates Awesome Indexes - tiny search engines build from curated sources:
 - [Zenodo Communities](https://zenodo.org/communities)
 - Read as JSON objects via [JSONL](https://jsonlines.org/) files generated from other sources.
 
-You can see a demonstration of the idea at _TBA_
+This tool gathers links and metadata from these sources, and uses them to built a static web page that provides a faceted search interface via [Pagefind](https://pagefind.app/).
+
+You can see a demonstration at _TBA_
 
 ## Usage
 
@@ -31,9 +33,7 @@ uvx _TBA_
 
 By default, the `awindex` command reads it's configuration from a file called `./config.yaml` (this can overridden at the command line, run `awindex -h` for help).
 
-The tool reads the `config.yaml` file, downloads and caches the information sources, and generates an Awesome Index in the `./output` folder.
-
-You can the open [`./output/index.html`](./output/index.html) in a browser to see the results
+The tool reads the `config.yaml` file, downloads and caches the information sources, and generates an Awesome Index in the `./index` folder.
 
 ### Configuration
 
@@ -41,7 +41,18 @@ An example [`config.yaml`](./config.yaml) is provided that shows how it works. T
 
 _TBA_
 
-### Running in a GitHub Action
+### Using an Awesome Index
+
+Unfortunately, the index itself won't work without a web server.  If you've got Python 3+ installed, you can run:
+
+```sh
+cd index
+python -m http.server 8080
+```
+
+and then the index will be accessible at <http://localhost:8080>. Alternatively, you can upload your files to a static web host like [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/) (e.g. using [Netlify Drop](https://app.netlify.com/drop)) or [these EU alternatives](https://european-alternatives.eu/category/jamstack-hosting).
+
+### As a GitHub Action
 
 _TBA_
 
