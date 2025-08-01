@@ -6,9 +6,9 @@ Generates Awesome Indexes - tiny search engines build from curated sources:
 - [Awesome Lists](https://github.com/sindresorhus/awesome/blob/main/awesome.md) (hence the name _Awesome Indexes!_)
 - [Zotero](https://www.zotero.org/) libraries and collections
 - [Zenodo Communities](https://zenodo.org/communities)
-- Read as JSON objects via [JSONL](https://jsonlines.org/) files generated from other sources.
+- Any other source that can be used to create suitable JSON objects formatted as [JSONL](https://jsonlines.org/) files.
 
-This tool gathers links and metadata from these sources, and uses them to built a static web page that provides a faceted search interface via [Pagefind](https://pagefind.app/).
+The `awindex` tool gathers links and metadata from these sources, and uses them to build a static web page that provides a [Pagefind](https://pagefind.app/) faceted search interface. It can also package the index data as a downloadable database, to allow deeper analysis or custom visualisations to be created.
 
 You can see a demonstration at _TBA_
 

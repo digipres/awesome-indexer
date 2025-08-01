@@ -35,7 +35,7 @@ class Settings(BaseModel):
     title: str
     homepage: Optional[str] = None
     description: Optional[str] = None
-    output: Optional[str] = './output'
+    output: Optional[str] = './index'
     sources: List[Annotated[Union[Awesome, Zenodo, Zotero, Jsonl], Field(discriminator='type')]]
 
 

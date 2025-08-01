@@ -80,11 +80,7 @@ async def async_main(config: Settings):
         log.info(f"Indexed {count} records, now writing PageFind index files...")
     log.info("Indexing complete.")
 
-def main(config):
-    asyncio.run(async_main(config))
-
-
-if __name__ == "__main__":
+def main():
     # Parse arguments
     parser = argparse.ArgumentParser(description="Generate Awesome Indexes")
     parser.add_argument(
@@ -110,6 +106,10 @@ if __name__ == "__main__":
                 config.output = args.output
             # Run:
             log.info(f"Reading config in {config_file}, generating output here: {config.output}")
-            main(config)
+            asyncio.run(async_main(config))
         except ValidationError as e:
             log.exception("Invalid configuration file", e)
+
+
+if __name__ == "__main__":
+    main()
