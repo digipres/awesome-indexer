@@ -1,3 +1,4 @@
+import json
 from typing import List, Optional, Set, Dict, Tuple, Type, Union, Literal, Annotated
 from pydantic import BaseModel, Field
 from datetime import datetime
@@ -122,6 +123,11 @@ class PageFindRecord(BaseModel):
             pf.sort['date'] = ir.date.isoformat()
         if ir.metadata:
             for k,v in ir.metadata.items():
+                # If this looks like a JSON encoded array, try to load is as such:
+                if v.startswith("[\""):
+                    v = ", ".join(json.loads(v))
+                # Store the (resulting) value for search and for viewing:
+                pf.content += f" {v}"  
                 pf.meta[k] = v
 
         # Other items to consider including:
