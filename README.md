@@ -77,3 +77,7 @@ And to run from source rather than the installed version (i.e. during developmen
 ```bash
 python -m awindex.cli
 ```
+
+### Adding a new source
+
+_TBA: JSONL or extend thusly_

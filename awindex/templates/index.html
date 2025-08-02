@@ -40,11 +40,30 @@
 
     <script>
     window.addEventListener('DOMContentLoaded', (event) => {
-        new PagefindUI({ 
+        const pagefind = new PagefindUI({ 
             element: "#search",
             showSubResults: true,
             showEmptyFilters: false,
             openFilters: ['Source']
+        });
+        // Set up bookmarkable search results:
+        // (based on https://github.com/Pagefind/pagefind/discussions/535)
+        const search_params = new URLSearchParams(window.location.search);
+        // Support 'search-input' parameter used for iPRES 2024, turn it into a q:
+        const alt_key = 'search-input';
+        const alt_q = search_params.get(alt_key);
+        if( alt_q ) {
+            search_params.set('q', alt_q );
+            search_params.delete(alt_key);
+        }
+        // Do the search, if there is one:
+        pagefind.triggerSearch(search_params.get('q'));
+        // Set up the listener tom update the search parameters:
+        const search_input = document.querySelector('#search input');
+        search_input.addEventListener('input', (e) => {
+            search_params.set('q', e.target.value);
+            const new_url = `${window.location.pathname}?${search_params.toString()}`;
+                history.pushState(null, '', new_url);
         });
     });
     </script>
