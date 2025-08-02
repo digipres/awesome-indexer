@@ -5,7 +5,7 @@ import logging
 import mistletoe
 from mistletoe.markdown_renderer import MarkdownRenderer, BaseRenderer, block_token, span_token
 from .models import PageFindRecord
-from .zotero import cache, CACHE_FOR_SECONDS
+from .utils import cache, CACHE_FOR_SECONDS
 
 log = logging.getLogger(__name__)
 

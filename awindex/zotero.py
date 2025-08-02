@@ -1,15 +1,12 @@
 import json
 import logging
-from diskcache import Cache
 from pyzotero import zotero
 from .models import PageFindRecord
+from .utils import cache, CACHE_FOR_SECONDS
+
 
 # So we can see what's happening:
 log = logging.getLogger(__name__)
-
-# Set up caching of calls to web services:
-cache = Cache(directory=".data_cache")
-CACHE_FOR_SECONDS = 60*60*24 # Cache for a day by default
 
 # Caching call to Zotero:
 @cache.memoize(expire=CACHE_FOR_SECONDS)

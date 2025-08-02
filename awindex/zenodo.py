@@ -3,10 +3,9 @@ import datetime
 import requests
 import logging
 from .models import IndexRecord, PageFindRecord, Zenodo
-from .zotero import cache, CACHE_FOR_SECONDS
+from .utils import uncomma_name, cache, CACHE_FOR_SECONDS
 
 log = logging.getLogger(__name__)
-
 
 @cache.memoize(expire=CACHE_FOR_SECONDS)
 def get_zenodo_url(url):
@@ -40,7 +39,7 @@ def parse_zenodo(config: Zenodo):
             abstract=md.get('description', None),
             keywords=md.get('keywords', None),
             type=md['resource_type']['title'],
-            creators=(item['name'] for item in md['creators']),
+            creators=(uncomma_name(item['name']) for item in md['creators']),
         )
         # Attempt to parse date:
         pd = md['publication_date']

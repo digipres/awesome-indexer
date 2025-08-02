@@ -3,7 +3,6 @@ build
 __pycache__
 .venv
 .data_cache
-output
 index.log
 index
 

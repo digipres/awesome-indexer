@@ -94,12 +94,12 @@ class PageFindRecord(BaseModel):
             pf.content += f" {ir.full_text}"
         if ir.creators and len(ir.creators) > 0:
             summary = ", ".join(ir.creators)
-            pf.content += summary
+            pf.content += f" {summary}" # Ensures the values are searchable
             pf.meta['creators'] = summary
             pf.filters['creators'] = ir.creators
         if ir.keywords and len(ir.keywords) > 0:
             summary = ", ".join(ir.keywords)
-            pf.content += summary
+            pf.content += f" {summary}"  
             pf.meta['keywords'] = summary
             pf.filters['keywords'] = ir.keywords
         if ir.categories:
