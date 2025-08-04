@@ -19,14 +19,15 @@ You can see a demonstration at _TBA_
 To install `awindex` locally, you need Python 3.11 or later.
 
 ```sh
-pip install _TBA_
+pip install git+https://github.com/digipres/awesome-indexer@main
+awindex -c config -o ./index
 ```
 After which, you will be able to run the `awindex` command.
 
 Or, if [uv](https://docs.astral.sh/uv/) is installed:
 
 ```sh
-uvx _TBA_
+uvx --from git+https://github.com/digipres/awesome-indexer@main awindex -c config.yaml -o ./index
 ```
 
 ### Building an Awesome Index
@@ -69,10 +70,10 @@ sudo apt install python3.11
 sudo apt install python3.11-venv
 python3.11 -m venv .venv
 source .venv/bin/activate
-pip install .
+pip install -e .
 ```
 
-And to run from source rather than the installed version (i.e. during development):
+Having installed in development mode (`pip install -e`), to run from source:
 
 ```bash
 python -m awindex.cli

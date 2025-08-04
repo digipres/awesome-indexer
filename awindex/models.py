@@ -123,7 +123,7 @@ class PageFindRecord(BaseModel):
             pf.sort['date'] = ir.date.isoformat()
         if ir.metadata:
             for k,v in ir.metadata.items():
-                # If this looks like a JSON encoded array, try to load is as such:
+                # If this looks like a JSON encoded array, try to load it as such and join it:
                 if v.startswith("[\""):
                     v = ", ".join(json.loads(v))
                 # Store the (resulting) value for search and for viewing:
