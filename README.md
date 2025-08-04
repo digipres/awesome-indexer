@@ -109,7 +109,18 @@ uvx datasette serve index/records.db --metadata datasette-metadata.json
 
 ### As a GitHub Action
 
-_TBA_
+Building an index can be integrated into GitHub Action build like this:
+
+```
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: 3.11
+      - name: Build the Awesome Index
+        run: uvx --from git+https://github.com/digipres/awesome-indexer@main awindex -c _awindex/config.yaml -o ./awesome-index
+```
+
+There is an example [here](https://github.com/digipres/publications/blob/main/.github/workflows/pages.yml).
 
 ## Development setup
 
