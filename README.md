@@ -10,7 +10,7 @@ Generates Awesome Indexes - tiny search engines build from curated sources:
 
 The `awindex` tool gathers links and metadata from these sources, and uses them to build a static web page that provides a [Pagefind](https://pagefind.app/) faceted search interface. It can also package the index data as a downloadable database, to allow deeper analysis or custom visualisations to be created.
 
-You can see a demonstration at _TBA_
+You can see a demonstration [here](https://anjackson.net/blog/awindex-test-1/).
 
 ## Usage
 
@@ -55,7 +55,7 @@ An example [`config.yaml`](./config.yaml) is provided that shows how it works in
 
 Each `type` of source should have a `name` and a `homepage` so people can find out more about the source that has been included in the index. Each source can also have a `description`, to be shown in the Awesome Index source summary.
 
-The additional parameters for each source are:
+The additional parameters for each source are...
 
 #### Source: Awesome Lists
 
