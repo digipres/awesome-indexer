@@ -4,7 +4,7 @@ import json
 import logging
 import mistletoe
 from mistletoe.markdown_renderer import MarkdownRenderer, BaseRenderer, block_token, span_token
-from .models import IndexRecord, Source, Awesome
+from .models import IndexRecord, SourceResults, Awesome
 from .utils import cache, CACHE_FOR_SECONDS
 
 log = logging.getLogger(__name__)
@@ -84,7 +84,7 @@ def get_awesome_list(url):
         raise Exception("FAILED")
     return r.text
 
-def parse_input(input, source: Awesome):
+def parse_input(input, source: Awesome, result: SourceResults):
     with JsonlRenderer() as renderer:
         jsonl: str = renderer.render(mistletoe.Document(input))
         for json_item in jsonl.splitlines():
@@ -101,11 +101,12 @@ def parse_input(input, source: Awesome):
                     metadata=item['meta'],
                 )
                 # And return it
+                result.num_records += 1
                 yield ir
 
-def parse_awesome_list(source: Awesome):
+def parse_awesome_list(source: Awesome, result: SourceResults):
     text = get_awesome_list(source.url)
-    yield from parse_input(text, source)
+    yield from parse_input(text, source, result)
 
 # For testing:
 if __name__ == "__main__":

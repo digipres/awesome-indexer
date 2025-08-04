@@ -2,7 +2,7 @@ import json
 import datetime
 import requests
 import logging
-from .models import IndexRecord, PageFindRecord, Zenodo
+from .models import IndexRecord, Zenodo, SourceResults
 from .utils import uncomma_name, cache, CACHE_FOR_SECONDS
 
 log = logging.getLogger(__name__)
@@ -26,7 +26,7 @@ def get_zenodo_community(community):
             yield hit
         next_url = results['links'].get('next', None)
 
-def parse_zenodo(config: Zenodo):
+def parse_zenodo(config: Zenodo, result: SourceResults):
     for hit in get_zenodo_community(config.community):
         #print(hit)
         md = hit['metadata']
@@ -51,8 +51,11 @@ def parse_zenodo(config: Zenodo):
             else:
                 ir.date = datetime.datetime.strptime(pd, "%Y")
         except ValueError as e:
-            log.warning(f"Could not parse publication_date of {pd} from record '{md['title']}'")
-            
+            message = f"Could not parse publication_date of {pd} from record '{md['title']}'"
+            log.warning(message)
+            result.warnings.append(message)
+        
+        result.num_records += 1
         yield ir
 
 

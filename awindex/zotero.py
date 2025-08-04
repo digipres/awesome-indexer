@@ -1,7 +1,7 @@
 import json
 import logging
 from pyzotero import zotero
-from .models import IndexRecord, Zotero
+from .models import IndexRecord, Zotero, SourceResults
 from .utils import cache, CACHE_FOR_SECONDS
 
 
@@ -28,7 +28,7 @@ def get_full_collection(cols, c):
         return name
         
 
-def parse_zotero(source: Zotero):
+def parse_zotero(source: Zotero, result: SourceResults):
     # Get and cache the whole set of items and collections:
     items, collections = get_zotero_collection(source.library_id, source.library_type, source.api_key, collection_id=source.collection_id)
 
@@ -51,7 +51,9 @@ def parse_zotero(source: Zotero):
             continue
         # Skip items with no URL:
         if not 'url' in d:
-            log.warning(f"No URL for: {json.dumps(item)}")
+            message = f"No URL for: {json.dumps(item)}"
+            log.warning(message)
+            result.warnings.append(message)
             skipped_count += 1
             continue
         # Build a record:
@@ -83,7 +85,10 @@ def parse_zotero(source: Zotero):
         yield ir
         count += 1
     # Log stats
-    log.info(f"Found {count} records.") 
+    result.num_records = count
+    result.num_ignored = attachment_count
+    result.num_errors = skipped_count
+    log.info(f"Found {count} records.")
     log.info(f"Ignored {attachment_count} attachments/notes/annotations and skipped {skipped_count} records with no URL.") 
 
 

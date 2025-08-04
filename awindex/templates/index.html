@@ -23,6 +23,50 @@
             <div id="search"></div>
         </div>
 
+        <h2 class="lead text-center mt-3 mb-1">
+            Generated from these sources:
+        </h2>
+        <div class="container">
+        <div class="row">
+        {% for result in r %}
+        <div class="col-sm-6 col-md-4 mb-3 mb-sm-0 mt-2">
+        <div class="card h-100">
+        <div class="card-body h-100 d-flex flex-column">
+            <h5 class="card-title">{{ result.name }}</h5>
+            {% if result.description %}<p class="card-text">{{ result.description }}</p>{% endif %}
+            <p class="card-text">Contains {{ result.num_records }} records.</p> 
+            <div class="d-flex justify-content-between align-items-center mt-auto">
+              <p class="card-text mb-0"><small class="text-muted"></small></p>
+              <a href="{{ result.homepage }}" target="_new" class="btn btn-primary stretched-link">Visit Source</a>
+            </div>
+        </div>
+
+        </div>
+        </div>
+        {% endfor %}
+        </div>
+        </div>
+
+
+        <h2 class="lead text-center mt-3 mb-1">
+            Download this index:
+        </h2>
+
+        <script type="text/javascript">
+            function getDatasetteLiteURL() {
+                const sqldb_url = new URL('./records.db', document.location);
+                return `https://lite.datasette.io/?sql=${encodeURI(sqldb_url)}`;
+            }
+            console.log(getDatasetteLiteURL());
+        </script>
+        <div class="pt-2 text-center">
+            <a class="btn btn-primary" href="./records.db">As an SQLite database</a>
+            <a class="btn btn-secondary" target="_blank" href="#" onClick="document.location.href=getDatasetteLiteURL();">Open it in Datasette Lite</a>
+        </div>
+        <div class="pt-2 text-center">
+            <a class="btn btn-primary" href="./records.parquet">As a Parquet database</a>
+        </div>
+
         <nav class="navbar bg-body-tertiary mt-3">
         <div class="container-fluid">
             <span class="navbar-text">

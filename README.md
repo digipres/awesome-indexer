@@ -94,7 +94,18 @@ cd index
 python -m http.server 8080
 ```
 
-and then the index will be accessible at <http://localhost:8080>. Alternatively, you can upload your files to a static web host like [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/) (e.g. using [Netlify Drop](https://app.netlify.com/drop)) or [these EU alternatives](https://european-alternatives.eu/category/jamstack-hosting).
+and then the index will be accessible at <http://localhost:8080>. 
+
+To share your Awesome Index, you can upload your files to a static web host like [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/) (e.g. using [Netlify Drop](https://app.netlify.com/drop)) or [these EU alternatives](https://european-alternatives.eu/category/jamstack-hosting).
+
+#### Inspect the data using Datasette
+
+You can look at the SQLite database that the indexer generates using e.g [Datasette](https://datasette.io/), like this:
+
+```
+uvx datasette serve index/records.db --metadata datasette-metadata.json
+```
+
 
 ### As a GitHub Action
 

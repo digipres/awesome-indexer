@@ -4,30 +4,36 @@ description: "A demo to show what the <a href='https://github.com/digipres/aweso
 sources:
 - name: "Awesome Digital Preservation"
   homepage: "https://github.com/digipres/awesome-digital-preservation/"
+  description: "A carefully curated list of awesome digital preservation resources."
   type: awesome-list
   view_url: "https://github.com/digipres/awesome-digital-preservation/blob/main/README.md?plain=1"
   url: "https://raw.githubusercontent.com/digipres/awesome-digital-preservation/refs/heads/main/README.md"
 - name: "Awesome Web Archiving"
   homepage: "https://github.com/iipc/awesome-web-archiving/"
+  description: "An Awesome List for getting started with web archiving."
   type: awesome-list
   url: "https://raw.githubusercontent.com/iipc/awesome-web-archiving/refs/heads/main/README.md"
 - name: Zenodo Digital Preservation Community
   homepage: https://zenodo.org/communities/digital-preservation
+  description: "A library of openly available digital preservation reports, publications, instructions, documentations and data sets."
   type: zenodo
   community: "digital-preservation"
 - name: "IIPC Web Archiving Library"
   homepage: https://netpreserve.org/
+  description: "The (work-in-progress) IIPC Zotero library on web archiving including IIPC conference proceedings."
   type: zotero
   library_type: group
   library_id: 2271741
 - name: "Ethan Gates's Emulation Library"
   homepage: "https://www.digipres.org/publications/ipres/ipres-2024/papers/using-digital-documents-to-preserve-emulation-lessons-learned-fr/"
+  description: "A Zotero library on emulation."
   type: zotero
   library_type: user
   library_id: 8195999
   collection_id: "ERZIYJ3T"
 - name: "iPRES Proceedings"
   homepage: https://ipres-conference.org/
+  description: "An index build from the collected proceedings of the iPRES conference series."
   type: jsonl
   file: ./test/ipres-awindex-test.jsonl
 #

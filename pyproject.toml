@@ -16,11 +16,13 @@ dependencies = [
     "Jinja2",
     "mistletoe",
     "pagefind[bin]",
+    "pyarrow",
     "pydantic",
     "pydantic-settings",
     "pyzotero",
     "pyyaml",
     "requests",
+    "sqlite-utils",
 ]
 dynamic = ["version"]
 
