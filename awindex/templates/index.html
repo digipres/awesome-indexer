@@ -55,7 +55,7 @@
         <script type="text/javascript">
             function getDatasetteLiteURL() {
                 const sqldb_url = new URL('./records.db', document.location);
-                return `https://lite.datasette.io/?sql=${encodeURI(sqldb_url)}`;
+                return `https://lite.datasette.io/?url=${encodeURI(sqldb_url)}#/records/index?_facet=source&_facet_array=creators&_facet_size=10`;
             }
             console.log(getDatasetteLiteURL());
         </script>
