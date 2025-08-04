@@ -88,7 +88,7 @@ async def async_generator(index_path, records: List[IndexRecord]):
     # Set up index config and generate:
     log.info("Generating PageFind index...")
     index_config = IndexConfig(
-        root_selector="main", logfile="index.log", output_path=str(index_path), verbose=True
+        root_selector="main", output_path=str(index_path), verbose=False
     )
     async with PagefindIndex(config=index_config) as index:
         # Add custom records:
