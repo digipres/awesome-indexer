@@ -33,7 +33,7 @@ sources:
   collection_id: "ERZIYJ3T"
 - name: "iPRES Proceedings"
   homepage: https://ipres-conference.org/
-  description: "An index build from the collected proceedings of the iPRES conference series."
+  description: "An index build from the collected proceedings of the <a href=\"https://ipres-conference.org/\">iPRES conference series</a>."
   type: jsonl
   file: ./test/ipres-awindex-test.jsonl
 #
