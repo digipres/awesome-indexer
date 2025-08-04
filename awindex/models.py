@@ -20,6 +20,7 @@ class Zotero(Source):
     library_id: Union[str, int]
     library_type: str
     collection_id: Optional[str] = None
+    api_key: Optional[str] = None
 
 # Zenodo
 class Zenodo(Source):

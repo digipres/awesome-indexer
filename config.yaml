@@ -2,6 +2,15 @@ title: "Awesome Indexer Demo"
 homepage: https://github.com/digipres/awesome-indexer
 description: "A demo to show what the <a href='https://github.com/digipres/awesome-indexer#readme'>Awesome Indexer</a> can do."
 sources:
+- name: "Awesome Digital Preservation"
+  homepage: "https://github.com/digipres/awesome-digital-preservation/"
+  type: awesome-list
+  view_url: "https://github.com/digipres/awesome-digital-preservation/blob/main/README.md?plain=1"
+  url: "https://raw.githubusercontent.com/digipres/awesome-digital-preservation/refs/heads/main/README.md"
+- name: "Awesome Web Archiving"
+  homepage: "https://github.com/iipc/awesome-web-archiving/"
+  type: awesome-list
+  url: "https://raw.githubusercontent.com/iipc/awesome-web-archiving/refs/heads/main/README.md"
 - name: Zenodo Digital Preservation Community
   homepage: https://zenodo.org/communities/digital-preservation
   type: zenodo
@@ -17,15 +26,6 @@ sources:
   library_type: user
   library_id: 8195999
   collection_id: "ERZIYJ3T"
-- name: "Awesome Web Archiving"
-  homepage: "https://github.com/iipc/awesome-web-archiving/"
-  type: awesome-list
-  url: "https://raw.githubusercontent.com/iipc/awesome-web-archiving/refs/heads/main/README.md"
-- name: "Awesome Digital Preservation"
-  homepage: "https://github.com/digipres/awesome-digital-preservation/"
-  type: awesome-list
-  view_url: "https://github.com/digipres/awesome-digital-preservation/blob/main/README.md?plain=1"
-  url: "https://raw.githubusercontent.com/digipres/awesome-digital-preservation/refs/heads/main/README.md"
 - name: "iPRES Proceedings"
   homepage: https://ipres-conference.org/
   type: jsonl

@@ -52,7 +52,7 @@ def parse_zenodo(config: Zenodo):
                 ir.date = datetime.datetime.strptime(pd, "%Y")
         except ValueError as e:
             log.warning(f"Could not parse publication_date of {pd} from record '{md['title']}'")
-        #print(ir)
-        yield PageFindRecord.from_index_record(ir)
+            
+        yield ir
 
 

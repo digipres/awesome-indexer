@@ -4,7 +4,7 @@ import json
 import logging
 import mistletoe
 from mistletoe.markdown_renderer import MarkdownRenderer, BaseRenderer, block_token, span_token
-from .models import PageFindRecord
+from .models import IndexRecord, Source, Awesome
 from .utils import cache, CACHE_FOR_SECONDS
 
 log = logging.getLogger(__name__)
@@ -26,9 +26,7 @@ class JsonlRenderer(BaseRenderer):
         self.re_comment = re.compile("<!--.*-->")
         # Internal tracking state:
         self.headings = [] 
-        self.item = { 'meta': {}, 'filters': {} }
-        if source:
-            self.item['filters']['source'] = [ source ]
+        self.item = { 'meta': {} }
         self.keep_text = False
         self.in_item = False
     
@@ -37,8 +35,7 @@ class JsonlRenderer(BaseRenderer):
         rendered = self.render_inner(token)
         self.headings.insert( token.level - 1, rendered.strip() )
         self.headings = self.headings[0:token.level]
-        self.item['filters']['sections'] = [ " > ".join(self.headings[1:]) ]
-        self.item['meta']['section'] = self.item['filters']['sections'][0]
+        self.item['sections'] = [ " > ".join(self.headings[1:]) ]
         self.keep_text = False
         return ""
 
@@ -49,8 +46,7 @@ class JsonlRenderer(BaseRenderer):
         self.in_item = True
         self.keep_text = True
         self.item['url'] = None
-        self.item['meta']['title']  = self.render_inner(token)
-        self.item['content'] = self.item['meta']['title']
+        self.item['title']  = self.render_inner(token)
         self.keep_text = False
         self.in_item = False
         return json.dumps(self.item)+"\n"
@@ -88,7 +84,7 @@ def get_awesome_list(url):
         raise Exception("FAILED")
     return r.text
 
-def parse_input(input, source=None, language="en"):
+def parse_input(input, source: Awesome):
     with JsonlRenderer() as renderer:
         jsonl: str = renderer.render(mistletoe.Document(input))
         for json_item in jsonl.splitlines():
@@ -96,28 +92,28 @@ def parse_input(input, source=None, language="en"):
             log.debug(f"Processing item {item}")
             if item['url'] and not item['url'].startswith('#'): 
                 # Set up as indexer record:
-                pf = PageFindRecord(
+                ir = IndexRecord(
+                    source=source.name,
+                    source_url=source.homepage,
+                    title=item['title'],
                     url=item['url'],
-                    content=item['content'],
-                    language=language,
-                    meta=item['meta'],
-                    filters=item['filters']
+                    categories=item['sections'],
+                    metadata=item['meta'],
                 )
-                # Add the source
-                if source:
-                    pf.filters['source'] = [ source ]
-                    pf.meta['source'] = source 
                 # And return it
-                yield pf
+                yield ir
 
-def parse_awesome_list(url, source=None, language="en"):
-    text = get_awesome_list(url)
-    yield from parse_input(text, source, language)
+def parse_awesome_list(source: Awesome):
+    text = get_awesome_list(source.url)
+    yield from parse_input(text, source)
 
 # For testing:
 if __name__ == "__main__":
     with open("test/awesome-web-archiving.md") as f:
-        for pf in parse_input(f):
+        source = Awesome()
+        source.name = "Test Source"
+        source.homepage = "http://test.com"
+        for pf in parse_input(f, source):
             print(pf)
 
 

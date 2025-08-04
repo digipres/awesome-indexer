@@ -1,7 +1,7 @@
 import json
 import logging
 from pyzotero import zotero
-from .models import PageFindRecord
+from .models import IndexRecord, Zotero
 from .utils import cache, CACHE_FOR_SECONDS
 
 
@@ -28,9 +28,9 @@ def get_full_collection(cols, c):
         return name
         
 
-def parse_zotero(library_id, library_type, api_key=None, collection_id:str = None, source=None, language="en"):
+def parse_zotero(source: Zotero):
     # Get and cache the whole set of items and collections:
-    items, collections = get_zotero_collection(library_id, library_type, api_key, collection_id=collection_id)
+    items, collections = get_zotero_collection(source.library_id, source.library_type, source.api_key, collection_id=source.collection_id)
 
     # Can index collections by key, and then can add collections as section facets:
     cols = {}
@@ -55,17 +55,13 @@ def parse_zotero(library_id, library_type, api_key=None, collection_id:str = Non
             skipped_count += 1
             continue
         # Build a record:
-        pf = PageFindRecord(
+        ir = IndexRecord(
+            source=source.name,
+            source_url=source.homepage,
             url=d['url'],
-            content=f"{d['title']} {d['abstractNote']}",
-            language=language,
-            meta={
-                'title': d['title'],
-                'type' : d['itemType']
-            },
-            filters={
-                'type': [ d['itemType'] ]
-            }
+            title=d['title'],
+            abstract=d['abstractNote'],
+            type=d['itemType'],
         )
 
         # Add the collection:
@@ -77,20 +73,14 @@ def parse_zotero(library_id, library_type, api_key=None, collection_id:str = Non
                     continue
                 c = cols[c_k]
                 sections.append(get_full_collection(cols, c))
-            pf.filters['sections'] = sections
-            if len(sections) == 1:
-                pf.meta['section'] = sections[0]
+            ir.categories = sections
             
         # Skip items in no collections if a specific collection was requested:
-        if collection_id and len(sections) == 0:
+        if source.collection_id and len(sections) == 0:
             continue
 
-        # Add the source
-        if source:
-            pf.filters['source'] = [ source ]
-            pf.meta['source'] = source
         # And return it
-        yield pf
+        yield ir
         count += 1
     # Log stats
     log.info(f"Found {count} records.") 

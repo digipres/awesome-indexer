@@ -1,34 +1,32 @@
 import os
-import sys
 import yaml
 import argparse
-import asyncio
 import logging
 from pathlib import Path
-from pagefind.index import PagefindIndex, IndexConfig
+from pydantic import ValidationError
 from .awelist import parse_awesome_list
 from .zotero import parse_zotero
 from .zenodo import parse_zenodo
-from .models import Settings, IndexRecord, PageFindRecord
-from pydantic import ValidationError
+from .models import Settings, IndexRecord
+from .pagefind import generate_pagefind_index
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
 log = logging.getLogger(__name__)
 
 
-def generate_pagefind_records(config):
+def generate_index_records(config: Settings):
     # Add custom records:
     for source in config.sources:
         log.info(f"Indexing {source.name}...")
         if source.type == "awesome-list":
-            for pf in parse_awesome_list(source.url, source=source.name):
-                yield pf
+            for ir in parse_awesome_list(source):
+                yield ir
         elif source.type == "zotero":
-            for pf in parse_zotero(source.library_id, source.library_type, collection_id=source.collection_id, source=source.name):
-                yield pf
+            for ir in parse_zotero(source):
+                yield ir
         elif source.type == "zenodo":
-            for pf in parse_zenodo(source):
-                yield pf
+            for ir in parse_zenodo(source):
+                yield ir
         elif source.type == "jsonl":
             with open(source.file) as f:
                 for line in f:
@@ -36,9 +34,15 @@ def generate_pagefind_records(config):
                     # Override the source field:
                     ir.source = source.name
                     ir.source_url = source.homepage
-                    yield PageFindRecord.from_index_record(ir)
+                    yield ir
         else:
             log.warning(f"No implementation for source type {source.type}! Skipping {source.name}.")
+
+def collect_index_records(config: Settings):
+    records = []
+    for ir in generate_index_records(config):
+        records.append(ir)
+    return records
 
 def add_templated_files(config, output_path, files):
     from jinja2 import Environment, PackageLoader, select_autoescape
@@ -50,35 +54,6 @@ def add_templated_files(config, output_path, files):
         template = env.get_template(file)
         with open(output_path / file, "w") as fh:
             fh.write(template.render(c=config))
-
-def prefix(pre: str, s: str) -> str:
-    return pre + s.replace("\n", f"\n{pre}")
-
-async def async_main(config: Settings):
-    # Set up paths:
-    output_path = Path(config.output)
-    index_path = output_path / "pagefind"
-    index_path.mkdir(parents=True, exist_ok=True)
-
-    # TODO Process sources here, so we have stats and outputs ready:
-
-    # Put templated index file in place:
-    add_templated_files(config, output_path, ["index.html", "styles.css"])
-
-    # Set up index config and generate:
-    log.info("Generating PageFind index...")
-    index_config = IndexConfig(
-        root_selector="main", logfile="index.log", output_path=str(index_path), verbose=True
-    )
-    async with PagefindIndex(config=index_config) as index:
-        # Add custom records:
-        count = 0
-        for pf in generate_pagefind_records(config):
-            await index.add_custom_record(**(dict(pf)))
-            count += 1
-        # Report (don't call get_files as it returns the actual files and locks up the pipes):
-        log.info(f"Indexed {count} records, now writing PageFind index files...")
-    log.info("Indexing complete.")
 
 def main():
     # Parse arguments
@@ -104,9 +79,24 @@ def main():
             # Add/override output path if specified:
             if args.output:
                 config.output = args.output
-            # Run:
+
+            # Collect the source records
             log.info(f"Reading config in {config_file}, generating output here: {config.output}")
-            asyncio.run(async_main(config))
+            records = collect_index_records(config)
+
+            # Set up paths:
+            output_path = Path(config.output)
+            index_path = output_path / "pagefind"
+            index_path.mkdir(parents=True, exist_ok=True)
+
+            # Put templated index file in place:
+            add_templated_files(config, output_path, ["index.html", "styles.css"])
+
+            # TODO Process sources here, so we have stats and outputs ready:
+
+            # Generate the PageFind index file:
+            generate_pagefind_index(index_path, records)
+
         except ValidationError as e:
             log.exception("Invalid configuration file", e)
 
