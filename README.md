@@ -10,7 +10,7 @@ Generates Awesome Indexes - tiny search engines build from curated sources:
 
 The `awindex` tool gathers links and metadata from these sources, and uses them to build a static web page that provides a [Pagefind](https://pagefind.app/) faceted search interface. It can also package the index data as a downloadable database, to allow deeper analysis or custom visualisations to be created.
 
-You can see a demonstration [here](https://anjackson.net/blog/awindex-test-1/).
+You can see a demonstration [here](https://www.digipres.org/publications/awesome-index/).
 
 ## Usage
 
