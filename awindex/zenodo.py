@@ -10,8 +10,8 @@ from .utils import uncomma_name, cache, CACHE_FOR_SECONDS
 
 s = Session()
 retries = Retry(
-    total=3,
-    backoff_factor=0.5
+    total=5,
+    backoff_factor=1
 )
 s.mount('https://', HTTPAdapter(max_retries=retries))
 
@@ -22,7 +22,7 @@ def get_zenodo_url(url):
     log.warning(f"Fetching {url}")
     r = s.get(url)
     if r.status_code != 200:
-        raise Exception("FAILED")
+        raise Exception(f"FAILED: {r.status_code} {r.text}")
     return r.text
 
 # https://zenodo.org/api/communities/digital-preservation/records?page=2&size=25&sort=newest
