@@ -11,7 +11,8 @@ from .utils import uncomma_name, cache, CACHE_FOR_SECONDS
 s = Session()
 retries = Retry(
     total=5,
-    backoff_factor=1
+    backoff_factor=1.0,
+    status_forcelist=[429, 500, 502, 503, 504]
 )
 s.mount('https://', HTTPAdapter(max_retries=retries))
 
