@@ -1,16 +1,26 @@
 import json
 import datetime
-import requests
 import logging
+from urllib3.util import Retry
+from requests import Session
+from requests.adapters import HTTPAdapter
+
 from .models import IndexRecord, Zenodo, SourceResults
 from .utils import uncomma_name, cache, CACHE_FOR_SECONDS
+
+s = Session()
+retries = Retry(
+    total=3,
+    backoff_factor=0.5
+)
+s.mount('https://', HTTPAdapter(max_retries=retries))
 
 log = logging.getLogger(__name__)
 
 @cache.memoize(expire=CACHE_FOR_SECONDS)
 def get_zenodo_url(url):
     log.warning(f"Fetching {url}")
-    r = requests.get(url)
+    r = s.get(url)
     if r.status_code != 200:
         raise Exception("FAILED")
     return r.text
