@@ -71,6 +71,7 @@ Note that `awindex` only supports public Zotero collections at present.
 - __`library_type`__: Either `user` or `group` (required).
 - __`library_id`__: The identification number for this library, e.g. `8195999` (required).
 - __`collection_id`__: The key of a specific collection within this library, e.g. `ERZIYJ3T` (optional). If this is specified, the index will only include records that are included in that hierarchy of collections.
+- __`api_key`__: A [Zotero API key](https://www.zotero.org/support/dev/web_api/v3/basics#authentication) (optional). This can be used to access private groups, but note that writing this directly into the config file will mean this file needs to be kept private. (See [this open issue](https://github.com/digipres/awesome-indexer/issues/20) for an alternative approach).
 
 The [pyzotero documentation](https://pyzotero.readthedocs.io/en/latest/#getting-started-short-version) has more information about these fields and how to find them.
 
