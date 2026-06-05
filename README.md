@@ -97,7 +97,7 @@ python -m http.server 8080
 
 and then the index will be accessible at <http://localhost:8080>. 
 
-To share your Awesome Index, you can upload your files to a static web host like [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/) (e.g. using [Netlify Drop](https://app.netlify.com/drop)) or [these EU alternatives](https://european-alternatives.eu/category/jamstack-hosting).
+To share your Awesome Index, you can upload your files to a static web host like [Codeberg Pages](https://docs.codeberg.org/codeberg-pages/), [GitHub Pages](https://pages.github.com/), [GitLab Pages](https://docs.gitlab.com/user/project/pages/), [Netlify](https://www.netlify.com/) (e.g. using [Netlify Drop](https://app.netlify.com/drop)) or [these EU alternatives](https://european-alternatives.eu/category/jamstack-hosting).
 
 #### Inspect the data using Datasette
 
